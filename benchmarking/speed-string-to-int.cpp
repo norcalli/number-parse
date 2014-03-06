@@ -24,13 +24,7 @@ static const int N = 100000;
 static const size_t R = 100;
 
 void PrintStats(std::vector<double> timings) {
-    std::cout << std::fixed << std::setprecision(2);
-    std::cout << "[";
-    for (size_t i = 1 ; i<timings.size()-1 ; ++i) {
-        std::cout << timings[i] << ",";
-    }
-    std::cout << timings.back();
-    std::cout << "]";
+
 
     double sum = 0.0;
     for (size_t i = 1 ; i<timings.size() ; ++i) {
@@ -40,13 +34,17 @@ void PrintStats(std::vector<double> timings) {
 
     sum = 0.0;
     for (size_t i = 1 ; i<timings.size() ; ++i) {
-        timings[i] = pow(timings[i]-avg, 2);
-        sum += timings[i];
+        sum += pow(timings[i]-avg, 2);
     }
     double var = sum/(timings.size()-2);
     double sdv = sqrt(var);
-
-    std::cout << " with average " << avg << ", stddev " << sdv;
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << "[";
+    for (size_t i = 1 ; i<timings.size()-1 ; ++i) {
+        std::cout << timings[i] << ",";
+    }
+    std::cout << timings.back();
+    std::cout << "]";
 }
 
 int naive(const char *p) {
@@ -83,11 +81,12 @@ int naive(const char *p) {
       timings.push_back(timed);                         \
     }                                                   \
                                                         \
-    std::cout << name ": ";                             \
+    std::cout << "\"" name "\": ";                      \
     PrintStats(timings);                                \
     std::cout << std::endl;                             \
-    std::cout << tsum << std::endl;                     \
   }                                                     \
+
+    // std::cout << tsum << std::endl;                     \
 
 #include "number-parse.h"
 #include <boost/spirit/include/qi.hpp>
